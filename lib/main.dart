@@ -9,6 +9,10 @@ import 'core/constants.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/profile/data/repositories/profile_repository_impl.dart';
+import 'features/products/presentation/bloc/product_bloc.dart';
+import 'features/products/data/repositories/product_repository_impl.dart';
+import 'features/orders/presentation/bloc/order_bloc.dart';
+import 'features/orders/data/repositories/order_repository_impl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +49,12 @@ class PalmShellTrackerApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => ProfileRepositoryImpl(supabase.Supabase.instance.client),
         ),
+        RepositoryProvider(
+          create: (context) => ProductRepositoryImpl(supabase.Supabase.instance.client),
+        ),
+        RepositoryProvider(
+          create: (context) => OrderRepositoryImpl(supabase.Supabase.instance.client),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -52,6 +62,16 @@ class PalmShellTrackerApp extends StatelessWidget {
             create: (context) => AuthBloc(
               authRepository: context.read<AuthRepositoryImpl>(),
             )..add(const CheckAuthStatus()),
+          ),
+          BlocProvider(
+            create: (context) => ProductBloc(
+              productRepository: context.read<ProductRepositoryImpl>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => OrderBloc(
+              orderRepository: context.read<OrderRepositoryImpl>(),
+            ),
           ),
         ],
         child: MaterialApp.router(
