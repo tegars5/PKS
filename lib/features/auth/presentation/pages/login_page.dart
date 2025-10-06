@@ -40,6 +40,10 @@ class _LoginPageState extends State<LoginPage> {
         _isLoading = true;
       });
 
+      print('=== LOGIN PAGE DEBUG START ===');
+      print('Email: ${_emailController.text.trim()}');
+      print('Password length: ${_passwordController.text.length}');
+
       context.read<AuthBloc>().add(
         SignIn(
           _emailController.text.trim(),
@@ -85,18 +89,29 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xFFF5F5F5),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
+          print('=== LOGIN PAGE STATE DEBUG START ===');
+          print('State type: ${state.runtimeType}');
+          
           if (state is AuthLoading) {
+            print('State: AuthLoading');
             setState(() {
               _isLoading = true;
             });
           } else {
+            print('State: Not AuthLoading');
             setState(() {
               _isLoading = false;
             });
 
             if (state is Authenticated) {
-              // Navigation will be handled by the splash page listener
+              print('State: Authenticated');
+              print('User ID: ${state.user.id}');
+              print('User role: ${state.user.role}');
+              print('Navigating to home page...');
+              // Navigate to home page
+              context.goNamed('home');
             } else if (state is AuthError) {
+              print('State: AuthError - ${state.message}');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -105,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
               );
             }
           }
+          print('=== LOGIN PAGE STATE DEBUG END ===');
         },
         child: SafeArea(
           child: SingleChildScrollView(

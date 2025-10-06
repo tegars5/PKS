@@ -7,7 +7,7 @@ class ArticleListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Berita & Pelatihan'),
+        title: const Text('Artikel'),
         backgroundColor: const Color(0xFF2E7D32),
         foregroundColor: Colors.white,
       ),
@@ -22,20 +22,11 @@ class ArticleListPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'Berita & Pelatihan',
+              'Halaman Artikel',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Dapatkan berita terkini dan materi pelatihan industri kelapa sawit',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF757575),
-              ),
-              textAlign: TextAlign.center,
             ),
             SizedBox(height: 8),
             Text(

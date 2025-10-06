@@ -19,9 +19,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('=== HOME PAGE DEBUG START ===');
+    
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
+        print('Home Page State: ${state.runtimeType}');
+        
         if (state is Authenticated) {
+          print('Home Page: User is authenticated');
+          print('User ID: ${state.user.id}');
+          print('User role: ${state.user.role}');
+          print('=== HOME PAGE DEBUG END ===');
+          
           return Scaffold(
             appBar: AppBar(
               title: Text('PalmShell Tracker - ${_getRoleDisplayName(state.user.role ?? 'user')}'),
@@ -74,9 +83,15 @@ class _HomePageState extends State<HomePage> {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _currentIndex,
               onTap: (index) {
+                print('=== HOME PAGE NAVIGATION DEBUG ===');
+                print('Current index: $_currentIndex');
+                print('New index: $index');
+                
                 setState(() {
                   _currentIndex = index;
                 });
+                
+                print('=== HOME PAGE NAVIGATION DEBUG END ===');
               },
               type: BottomNavigationBarType.fixed,
               selectedItemColor: const Color(0xFF2E7D32),
@@ -87,6 +102,9 @@ class _HomePageState extends State<HomePage> {
         }
         
         // If not authenticated, show loading
+        print('Home Page: User is not authenticated');
+        print('=== HOME PAGE DEBUG END ===');
+        
         return const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
@@ -302,6 +320,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProductsPage() {
+    // Navigate to products page
+    print('=== HOME PAGE PRODUCTS DEBUG ===');
+    print('Navigating to products page...');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('PostFrameCallback: Navigating to products');
+      context.goNamed('products');
+    });
     return const Center(
       child: Text(
         'Halaman Produk',
@@ -311,6 +336,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildOrdersPage() {
+    // Navigate to orders page
+    print('=== HOME PAGE ORDERS DEBUG ===');
+    print('Navigating to orders page...');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('PostFrameCallback: Navigating to orders');
+      context.goNamed('orders');
+    });
     return const Center(
       child: Text(
         'Halaman Pesanan',
@@ -320,6 +352,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildArticlesPage() {
+    // Navigate to articles page
+    print('=== HOME PAGE ARTICLES DEBUG ===');
+    print('Navigating to articles page...');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('PostFrameCallback: Navigating to articles');
+      context.goNamed('articles');
+    });
     return const Center(
       child: Text(
         'Halaman Artikel',

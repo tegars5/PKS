@@ -13,6 +13,8 @@ import 'features/products/presentation/bloc/product_bloc.dart';
 import 'features/products/data/repositories/product_repository_impl.dart';
 import 'features/orders/presentation/bloc/order_bloc.dart';
 import 'features/orders/data/repositories/order_repository_impl.dart';
+import 'features/tracking/presentation/bloc/tracking_bloc.dart';
+import 'features/tracking/data/repositories/tracking_repository_impl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +57,9 @@ class PalmShellTrackerApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => OrderRepositoryImpl(supabase.Supabase.instance.client),
         ),
+        RepositoryProvider(
+          create: (context) => TrackingRepositoryImpl(supabase.Supabase.instance.client),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -71,6 +76,11 @@ class PalmShellTrackerApp extends StatelessWidget {
           BlocProvider(
             create: (context) => OrderBloc(
               orderRepository: context.read<OrderRepositoryImpl>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => TrackingBloc(
+              trackingRepository: context.read<TrackingRepositoryImpl>(),
             ),
           ),
         ],

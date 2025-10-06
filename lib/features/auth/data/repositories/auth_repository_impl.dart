@@ -16,12 +16,23 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     try {
+      print('=== LOGIN DEBUG START ===');
+      print('Attempting login for email: $email');
+      
       final response = await _supabaseClient.auth.signInWithPassword(
         email: email,
         password: password,
       );
 
+      print('Login response received');
+      print('User exists: ${response.user != null}');
+      
       if (response.user != null) {
+        print('User ID: ${response.user!.id}');
+        print('User email: ${response.user!.email}');
+        print('User metadata: ${response.user!.userMetadata}');
+        print('User email confirmed: ${response.user!.emailConfirmedAt}');
+        
         final user = AuthUser(
           id: response.user!.id,
           email: response.user!.email ?? '',
@@ -29,15 +40,26 @@ class AuthRepositoryImpl implements AuthRepository {
           role: response.user!.userMetadata?['role'],
           isEmailVerified: response.user!.emailConfirmedAt != null,
         );
+        
+        print('AuthUser created successfully');
+        print('User role: ${user.role}');
+        print('=== LOGIN DEBUG END ===');
         return user;
       } else {
+        print('Login failed: User is null');
+        print('=== LOGIN DEBUG END ===');
         throw const AuthenticationException(
           'Login failed. Please check your credentials.',
         );
       }
     } on supabase.AuthException catch (e) {
+      print('AuthException during login: ${e.message}');
+      print('=== LOGIN DEBUG END ===');
       throw AuthenticationException(e.message);
     } catch (e) {
+      print('Unexpected error during login: $e');
+      print('Error type: ${e.runtimeType}');
+      print('=== LOGIN DEBUG END ===');
       throw ServerException('An unexpected error occurred: $e');
     }
   }
